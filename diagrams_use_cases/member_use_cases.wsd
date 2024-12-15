@@ -1,0 +1,26 @@
+@startuml member_use_cases
+left to right direction
+"Member environment" as env
+' "Database" as db
+"Member" as mem
+
+package env {
+usecase "Borrow a book" as UC16
+usecase "Extend borrowing period " as UC18
+usecase "Check my borrowed books" as UC17
+usecase "Check my history of books borrowed" as UC20
+usecase "Reserve a book" as UC19
+}
+
+mem -up-> UC17 
+mem -up-> UC19
+mem -up-> UC16
+UC16 .left.> UC18 : extends
+UC17 .left.> UC20 : extends
+' db -down-> env
+' db -down-> UC16
+' db -down-> UC17
+' db -down-> UC19
+
+
+@enduml

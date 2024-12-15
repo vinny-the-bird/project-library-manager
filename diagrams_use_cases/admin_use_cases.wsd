@@ -1,0 +1,30 @@
+@startuml admin_use_cases
+' left to right direction
+"Admin environment" as env
+' "Database" as db
+"Admin" as admin
+
+package env {
+    usecase "Supervise books\nmovements" as UC9
+    usecase "Manage books" as UC2
+    usecase "Manage users" as UC6
+    usecase "View all borrowed books" as UC5
+    usecase "View all overdue books" as UC10
+    usecase "Contact a user\nabout an overdue book" as UC11
+    usecase "Check a member's\nhistory of books borrowed" as UC12
+}
+
+admin -left-> UC9
+UC9 <.down. UC5 : extends
+UC9 <.down. UC10 : extends
+UC10 <.right. UC11 : extends
+admin -down-> UC2
+admin -down-> UC6
+admin -down-> UC12
+' db --> env
+' db -up-> UC2
+' db -up-> UC6
+' db -up-> UC12
+' db -up-> UC9
+
+@enduml

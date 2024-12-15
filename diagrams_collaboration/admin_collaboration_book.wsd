@@ -1,0 +1,11 @@
+@startuml admin_collaboration_book
+left to right direction
+actor Admin as ad
+entity Application as app
+database DB as db
+
+ad -- (app): <&arrow-right>\n1. click "create book" button\n3. enter info in form\n7. on an existing book, click "edit" button\n9. edit info in form\n13. on an existing book, click "delete" button\n15. click "confirm" or "cancel"\n\n<&arrow-left>\n2. return book form\n6. display creation confirmation message\n8. return book form\n12. display edit confirmation message\n14. return delete confirmation window\n18. display delete confirmation message. Book will not appear in app
+
+app --> (db) : <&arrow-right>\n4. create new book with info.\n10. update book info\n16. update book info\n\n<&arrow-left>\n5. book is created and available\n11. return edited book\n17. book is now "deleted"
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml public_use_cases
+' left to right direction
+"Public environment" as env
+' "App" as app
+' "Database" as db
+"Public" as pub
+
+package env {
+    usecase "Log in application" as UC1
+    ' usecase "Admin session" as UC1_A
+    ' usecase "Member session" as UC1_B
+    usecase "Search books" as UC13_A
+    usecase "Search books\nwith one criteria" as UC13_B
+    usecase "Check book availability" as UC14
+    usecase "View book info" as UC15
+}
+
+    pub -down-> UC1
+    pub -down-> UC13_A
+    ' app --> env
+    ' db -up-> UC1
+    ' db -up-> UC13_A
+    ' UC1 .up.> UC1_A : include
+    ' UC1 .up.> UC1_B : include
+    ' UC1 --> UC13_A
+    UC13_A <.down. UC13_B : extends
+    UC13_A --> UC15
+    UC15 <.down. UC14 : extends
+
+@enduml

@@ -1,0 +1,41 @@
+@startuml member_sequence
+actor Member as mem
+participant Application as app
+database DB as db
+
+    mem -> app ++ : for a specific available book,\nclick on "borrow" button
+    app -> db ++ : request borrowing an available\nbook by id_book
+    db -> db : create new\n"borrowed"\nfor this id_book
+    return book is now borrowed by the\nmember and unavailable
+    return display confirmation message: "Book successfully\nborrowed". Member can leave library with the book
+
+    app -> db : if book is not returned on the 22nd day:\n check if book is reserved
+
+    alt extend is possible
+        db --> app : book_reserved == null
+        app -> app : automatic extension for +7 days (now 28 in total)
+    else extend is not possible
+        db -> app : book_reserved != null 
+        app -> app : book is now overdue
+        app --> mem : display a header for\nthe overdue book
+    end
+    app -> app : if book is not returned on the 29th day:\n book is now overdue
+    app --> mem : display a header for\nthe overdue book
+
+    mem -> app ++ : click on current borrowed books button
+    app -> db ++ : request books from "borrowed" where\nid_user = this id_user AND return_date == null
+    return return all current borrowed\nbook(s), 0 to 3
+    return display the current borrowed books
+
+    mem -> app ++ : click on history button
+    app -> db ++ : request all books ever borrowed.\nFrom "borrowed" where id_user = this id_used\nAND return_date != null
+    return return all borrowed book(s),\nexcluding current borrowed books
+    return display history of all borrowed books
+
+    mem -> app ++ : click the "reservation" button on an unavailable book
+    app -> db ++ : request book reservation for this id_user
+    db -> db : for this id_user,\nsave in\n"booked_reserved"\n = id_book and\n"reservation_time"\n = current time
+    return return book is now reserved for user
+    return display confirmation message:\n"Book successfully reserved"
+
+@enduml

@@ -1,0 +1,34 @@
+@startuml admin_sequence
+actor Admin as ad
+participant Application as app
+database DB as db
+
+
+    ad -> app ++: click "create book" button
+    app -> ad : return book form
+    ad -> app : enter info in form
+    app -> db ++: create new book with info. Save "creation_date" = current date\nand "created_by" = id_admin
+    return book is created and available
+    return display creation confirmation message
+ 
+    ad -> app ++: on an existing book, click "edit" button
+    app -> ad : return book form
+    ad -> app : edit info in form
+    app -> db ++ : update book info. Save "update_date" = current date\nand "updated_by" = id_admin
+    return return edited book
+    return display edit confirmation message
+
+    ad -> app ++ : on an existing book, click "delete" button
+    app -> ad : return delete confirmation window
+
+    alt cancel delete
+        ad -> app : click "cancel"
+        app -> ad : display previous page
+    else confirm delete
+        ad -> app : click "confirm"
+        app -> db ++ : update book info. Save "deleted_date" = current date\nand "deleted_by" = id_admin
+        return book is now "deleted" = unavailable to public, only in archive
+        return display delete confirmation message.\nBook will not appear in app
+    end
+
+@enduml
