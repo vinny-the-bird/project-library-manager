@@ -1,6 +1,6 @@
 Welcome to Library Manager project
 
-This project covers skills learned during the course's first two months.
+This projects aime to test our skills in project organization, problem study and solution plannification.
 
 Author: Vincent Vogel
 School: IBM Academy 2024

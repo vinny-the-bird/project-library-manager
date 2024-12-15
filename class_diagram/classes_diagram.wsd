@@ -1,0 +1,130 @@
+@startuml class_diagram
+
+' Entity Classes
+class User {
+  +id_user : INT
+  +last_name : VARCHAR(255)
+  +first_name : VARCHAR(255)
+  +birth_date : DATE
+  +email : VARCHAR(255)
+  +hashed_password : VARCHAR(255)
+  +reservation_time : DATETIME
+  +id_user_status : INT
+  +id_book : INT
+}
+
+class UserStatus {
+  +id_user_status : INT
+  +name : VARCHAR(50)
+}
+
+class Administrator {
+  +id_administrator : INT
+  +id_user : INT
+}
+
+class Logs {
+  +id_logs : INT
+  +operation_date : DATETIME
+  +id_operation : INT
+  +id_book : INT
+  +id_administrator : INT
+}
+
+class OperationType {
+  +id_operation : INT
+  +name : VARCHAR(50)
+}
+
+class Book {
+  +id_book : INT
+  +title : VARCHAR(255)
+  +publication_date : DATE
+  +id_collection : INT
+  +id_category : INT
+}
+
+class Borrowed {
+  +id_borrowed : INT
+  +borrowing_date : DATE
+  +return_date : DATE
+  +id_book : INT
+  +id_user : INT
+}
+
+class Collection {
+  +id_collection : INT
+  +name : VARCHAR(255)
+}
+
+class Category {
+  +id_category : INT
+  +name : VARCHAR(255)
+  +id_category_1 : INT
+}
+
+class Author {
+  +id_author : INT
+  +title : VARCHAR(50)
+  +last_name : VARCHAR(255)
+  +first_name : VARCHAR(255)
+  +last_name_first_name : VARCHAR(255)
+  +pseudonym : VARCHAR(255)
+}
+
+class WroteBy {
+  +id_book : INT
+  +id_author : INT
+}
+
+' DAL and DAO Classes
+class UserDAO {
+  +getUserById(id_user : INT) : User
+  +createUser(user : User) : void
+  +updateUser(user : User) : void
+  +deleteUser(id_user : INT) : void
+}
+
+class UserDAL {
+  +fetchUser(id_user : INT) : User
+  +insertUser(user : User) : void
+  +updateUser(user : User) : void
+  +removeUser(id_user : INT) : void
+}
+
+class BookDAO {
+  +getBookById(id_book : INT) : Book
+  +createBook(book : Book) : void
+  +updateBook(book : Book) : void
+  +deleteBook(id_book : INT) : void
+  +borrowBook(id_book : INT) : void
+}
+
+class BookDAL {
+  +fetchBook(id_book : INT) : Book
+  +insertBook(book : Book) : void
+  +updateBook(book : Book) : void
+  +removeBook(id_book : INT) : void
+}
+
+' Relationships between Entities
+User --> UserStatus : "id_user_status"
+Administrator --> User : "id_user"
+Logs -up-> OperationType : "id_operation"
+Logs --> Book : "id_book"
+Logs --> Administrator : "id_administrator"
+Borrowed --> User : "id_user"
+Borrowed -left-> Book : "id_book"
+Book -up-> Collection : "id_collection"
+Book -up-> Category : "id_category"
+Category --> Category : "id_category_1"
+Book --> WroteBy : "id_book"
+WroteBy --> Author : "id_author"
+
+' Relationships for DAO and DAL
+UserDAO -up-> User
+UserDAO -down-> UserDAL
+BookDAO -up-> Book
+BookDAO -down-> BookDAL
+
+@enduml

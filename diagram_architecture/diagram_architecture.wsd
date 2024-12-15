@@ -1,0 +1,114 @@
+@startuml architecture_diagram
+
+' Define the System Architecture
+package "Library Management System" {
+  
+  ' Data Layer (DAL)
+  package "Data Access Layer (DAL)" {
+    class UserDAL {
+      +fetchUser(id_user : INT) : User
+      +insertUser(user : User) : void
+      +updateUser(user : User) : void
+      +removeUser(id_user : INT) : void
+    }
+    class BookDAL {
+      +fetchBook(id_book : INT) : Book
+      +insertBook(book : Book) : void
+      +updateBook(book : Book) : void
+      +removeBook(id_book : INT) : void
+    }
+  }
+
+  ' Data Access Object (DAO) Layer
+  package "Data Access Object (DAO)" {
+    class UserDAO {
+      +getUserById(id_user : INT) : User
+      +createUser(user : User) : void
+      +updateUser(user : User) : void
+      +deleteUser(id_user : INT) : void
+    }
+    class BookDAO {
+      +getBookById(id_book : INT) : Book
+      +createBook(book : Book) : void
+      +updateBook(book : Book) : void
+      +deleteBook(id_book : INT) : void
+    }
+  }
+
+  ' Entities Layer
+  package "Entities" {
+    class User {
+      +id_user : INT
+      +last_name : VARCHAR(255)
+      +first_name : VARCHAR(255)
+      +birth_date : DATE
+      +email : VARCHAR(255)
+      +hashed_password : VARCHAR(255)
+      +reservation_time : DATETIME
+      +id_user_status : INT
+      +id_book : INT
+    }
+
+    class Book {
+      +id_book : INT
+      +title : VARCHAR(255)
+      +publication_date : DATE
+      +id_collection : INT
+      +id_category : INT
+    }
+
+    class Borrowed {
+      +id_borrowed : INT
+      +borrowing_date : DATE
+      +return_date : DATE
+      +id_book : INT
+      +id_user : INT
+    }
+
+    class Logs {
+      +id_logs : INT
+      +operation_date : DATETIME
+      +id_operation : INT
+      +id_book : INT
+      +id_administrator : INT
+    }
+
+    class Administrator {
+      +id_administrator : INT
+      +id_user : INT
+    }
+
+    class UserStatus {
+      +id_user_status : INT
+      +name : VARCHAR(50)
+    }
+
+    class Author {
+      +id_author : INT
+      +title : VARCHAR(50)
+      +last_name : VARCHAR(255)
+      +first_name : VARCHAR(255)
+      +last_name_first_name : VARCHAR(255)
+      +pseudonym : VARCHAR(255)
+    }
+  }
+
+  ' Relationships
+  UserDAO --> User
+  UserDAO --> UserDAL
+  BookDAO --> Book
+  BookDAO --> BookDAL
+
+  UserDAL --> User
+  BookDAL --> Book
+
+  User --> UserStatus
+  Administrator --> User
+  Borrowed --> User
+  Borrowed --> Book
+  Logs --> Book
+  Logs --> Administrator
+
+}
+
+@enduml

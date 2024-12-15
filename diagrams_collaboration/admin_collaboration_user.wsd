@@ -1,0 +1,10 @@
+@startuml public_collaboration_user
+left to right direction
+actor Admin as ad
+entity Application as app
+database DB as db
+
+ad -- (app): <&arrow-right>\n1. click "create user" button\n3. enter info in form\n7. in use account, change to "active" status\n11. on an existing user, click "edit" button\n13. edit info in form\n17. on an existing user, click "block" button\n19. click "confirm" or "cancel"\n\n<&arrow-left>\n2. return user form\n6. display creation confirmation message\n10. user can now login as member in library app\n12. return user form\n16. display edit confirmation message\n18. return block confirmation window\n22. display user blocked confirmation message. User can't connect to account anymore
+
+app --> (db) : <&arrow-right>\n4. create new user with info. \n8. change user_status to "active"\n14. update user info. \n20. update user status as "blocked"\n\n<&arrow-left>\n5. user is created in "waiting" status\n9. user is now active\n15. return edited user\n21. user is now "blocked"
+@enduml

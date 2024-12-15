@@ -1,0 +1,29 @@
+@startuml public_sequence
+actor public as pub
+participant Application as app
+database DB as db
+
+    pub -> app ++ : request all books
+    pub -> app : request books with one criteria
+    app -> db ++ : get all books existing & non-deleted\n(optional: one search criteria)
+    return return list of all books existing, available\n & unavailable, eventually filtered with one criteria
+    return display list of books
+
+    pub -> app ++ : request one book info
+    app -> db ++ : request book info by id_book
+    return return book info, including book\navailability true/false
+    return display specific book\ninfo and availability
+
+    pub -> app : login 
+    app -> db : request check login\n+ password
+
+    alt successful login
+        db --> app : connected as member OR admin
+        app --> pub : display confirmation message:\n"Successful login as ..."
+
+    else wrong login and/or password
+        db --> app : return error
+        app --> pub : display error message: "Wrong login\nand/or password, please retry"
+    end
+
+@enduml

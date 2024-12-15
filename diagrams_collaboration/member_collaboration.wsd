@@ -1,0 +1,12 @@
+@startuml member_collaboration
+left to right direction
+skinparam responseMessageBelowArrow true
+actor Member as mem
+entity Application as app
+database DB as db
+
+
+mem -- (app): <&arrow-right>\n1. for a specific book, click "borrow" button\n9. click on current borrowed books button\n12. click on history button\n16. click the reservation button on an unavailable book \n\n<&arrow-left>\n4. display confirmation message. Member can leave with the book\n7. display a header for the overdue book\n8. book is not returned on the 29th day = display overdue header\n15. display history of all borrowed books\n19. display reservation confirmation message
+app --> (db) : <&arrow-right>\n2. request borrowing book by id_book. Create new "borrowed" for this id_book\n5. book is not returned on the 22nd day\n10. request books from "borrowed"\n13. request all books ever borrowed, excluding current ones\n17. request book reservation for this id_user    \n\n<&arrow-left>\n3.book is now borrowed and unavailable\n6. extend book borrowing duration for 7 extra days. Else: overdue\n11. return all current borrowed books (0-3)\n14. return all ever borrowed books, excluding current ones\n18. book is now reserved for this user
+
+@enduml

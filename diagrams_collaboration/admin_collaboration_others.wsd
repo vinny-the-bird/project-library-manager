@@ -1,0 +1,11 @@
+@startuml public_collaboration_others
+left to right direction
+actor Admin as ad
+entity Application as app
+database DB as db
+
+ad -- (app): <&arrow-right>\n1. on a specific user, click "current borrowed books" button\n5. click "view all borrowed books" button\n9. click "view all overdue books" button\n13. from list of overdue books, select a book \n16. list of info to contact the user + overdue details\n\n<&arrow-left> \n4. display books currently borrowed by the user\n8. display list of borrowed books\n12. display list of overdue books+ how long it is overdue (in nb of days)
+
+app --> (db) : <&arrow-right>\n2. get all books from "borrowed" currently borrowed\n6. get all borrowed books \n10. get all borrowed books that are overdue\n14. request overdue book details\n\n<&arrow-left>\n3. return current borrowed books (0-3)\n7. return list of all currently borrowed books\n11. return list of all overdue books + numbers of days\n15. return id_borrowed, borrowing_date, id_user, \ncontact, id_book
+
+@enduml

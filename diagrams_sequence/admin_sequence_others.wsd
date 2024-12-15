@@ -1,0 +1,28 @@
+@startuml admin_sequence
+actor Admin as ad
+participant Application as app
+database DB as db
+
+    ad -> app ++ : on a specific user, click "current\nborrowed books" button
+    app -> db ++ : get all books from "borrowed" by id_user where return_date =!null
+    return return current borrowed books (0-3)
+    return display books currently borrowed by the user
+
+
+    ad -> app ++ : click "view all borrowed books" button
+    app -> db ++ : get all borrowed books where return_date == null
+    return return list of all currently borrowed books
+    return display list of borrowed books
+
+    ad -> app ++ : click "view all overdue books" button
+    app -> db ++ : get all borrowed books where (current date - borrowing_date)\n>21 days or >28 days if extended
+    return return list of all overdue books + numbers of days
+    return display list of overdue books\n+ how long it is overdue (in nb of days)
+
+
+    ad -> app ++ : from list of overdue books, select a book
+    app -> db ++ : request overdue book details
+    return return id_borrowed, borrowing_date, id_user, \ncontact, id_book
+    return list of info to contact the\nuser + overdue details
+
+@enduml

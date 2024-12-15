@@ -1,0 +1,12 @@
+@startuml public_collaboration
+left to right direction
+skinparam responseMessageBelowArrow true
+actor Public as pub
+entity Application as app
+database DB as db
+
+
+pub -- (app): <&arrow-right>\n1. request all books\n2. request books with one criteria\n6. request one book info\n10. login\n\n<&arrow-left>\n5. display list of books\n9. display specific book info + availability\n13. display "successful login" or "error"
+app --> (db) : <&arrow-right>\n3. get all books existing & non-deleted (optional criteria)\n7. request book info by id_book\n11. request login + password verification\n\n<&arrow-left>\n4. return list of all books corresponding\n8. return book info (availability true or false)\n12. return result, login success or error
+
+@enduml

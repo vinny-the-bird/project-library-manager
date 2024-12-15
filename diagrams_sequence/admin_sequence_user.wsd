@@ -1,0 +1,37 @@
+@startuml admin_sequence
+actor Admin as ad
+participant Application as app
+database DB as db
+
+    ad -> app ++: click "create user" button
+    app -> ad : return user form
+    ad -> app : enter info in form
+    app -> db ++: create new user with info. Save "creation_date" = current date\nand "created_by" = id_admin
+    db -> app : user is created in "waiting" status
+    app -> ad : display creation confirmation message
+    ad -> app : in use account, change to "active" status
+    app -> db : change user_status to "active"
+    return user is now active
+    return user can now login as member in library app
+ 
+    ad -> app ++: on an existing user, click "edit" button
+    app -> ad : return user form
+    ad -> app : edit info in form
+    app -> db ++ : update user info. Save "update_date" = current date\nand "updated_by" = id_admin
+    return return edited user
+    return display edit confirmation message
+
+    ad -> app ++ : on an existing user, click "block" button
+    app -> ad : return block confirmation window
+
+    alt cancel block
+        ad -> app : click "cancel"
+        app -> ad : display previous page
+    else confirm block
+        ad -> app : click "confirm"
+        app -> db ++ : update user status as "blocked"
+        return user is now "blocked"
+        return display user blocked confirmation message.\nUser can't connect to account anymore
+    end
+
+@enduml
