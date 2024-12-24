@@ -1,6 +1,6 @@
 print("running app...")
 import sys
-from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QPushButton
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout, QHBoxLayout, QGridLayout, QPushButton, QLineEdit
 from PyQt5.QtGui import QIcon, QFont, QPixmap
 from PyQt5.QtCore import Qt
 
@@ -11,6 +11,7 @@ class MainWindow(QMainWindow):
         self.setGeometry(600, 200 , 800, 600) # (x, y, width, height)
         self.setWindowIcon(QIcon("img/cup_of_coffee_logo_flat.png"))
         self.buttonSearchBooks = QPushButton("Lancer la recherche", self)
+        self.line_edit = QLineEdit(self)
         self.initUI()
         
     def initUI(self):
@@ -50,14 +51,20 @@ class MainWindow(QMainWindow):
         # labelSearchButton = QLabel("HERE button to click to search", self)
         
             # button display all books
-        self.buttonSearchBooks.setGeometry(450, 450, 200, 100)
+        self.buttonSearchBooks.setGeometry(0, 0, 50, 20)
         self.buttonSearchBooks.setStyleSheet("font-size: 20px")
-        self.buttonSearchBooks.clicked.connect(self.displayAllBooks)
+        self.buttonSearchBooks.clicked.connect(self.displayResults)
         
             # display results area
-        self.labelDisplayResults = QLabel("Résultats de recherche", self)
+        self.labelDisplayResults = QLabel("", self)
         self.labelDisplayResults.setGeometry(150, 300, 200, 100)
-        self.labelDisplayResults.setStyleSheet("font-size: 30px")
+        self.labelDisplayResults.setStyleSheet("font-size: 15px")
+        
+            # input
+        self.line_edit.setGeometry(10, 10, 200, 40) #this part is NOT working, prob bc of vbox
+        self.line_edit.setStyleSheet("font-size: 25px;"
+                                     "font-family: Arial")
+        self.line_edit.setPlaceholderText("Entrez votre recherche")
         
             # LAYOUTS
         vbox = QVBoxLayout()
@@ -65,15 +72,21 @@ class MainWindow(QMainWindow):
         vbox.addWidget(labelTitle)
         vbox.addWidget(labelWelcomeMessage)
         vbox.addWidget(labelSearchInput)
+        vbox.addWidget(self.line_edit)
         vbox.addWidget(self.buttonSearchBooks)
         vbox.addWidget(self.labelDisplayResults)
 
         
         central_widget.setLayout(vbox)
         
-    def displayAllBooks(self): 
+    def displayResults(self): 
         print("Button clicked")
-        self.labelDisplayResults.setText("Display list of books HERE")
+        text = self.line_edit.text()
+        if text =="":
+            print(f"Display all books")
+        else:
+            print(f"Searching for: {text}")
+        self.labelDisplayResults.setText("HERE Résultats de la recherche")
 
         
 def main():
